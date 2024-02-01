@@ -8,8 +8,8 @@ async function readAll(filter = {}) {
 }
 
 //get just one task 
-async function readOne(filter) {
-    let task = await taskModel.findOne(filter)
+async function readOne(id) {
+    let task = await taskModel.findById(id)
     // console.log("c", task);
     return task;
 }
@@ -23,10 +23,11 @@ async function create(data) {
 
 // update task by id
 async function updateById(id, data) {
-    let taskUpdeted = await taskModel.updateOne({_id:id} ,data)
-    // console.log("c" ,  taskUpdeted);
+    let taskUpdeted = await taskModel.findByIdAndUpdate({_id: id },{ status : "done"}  ,data)
+    console.log("c" ,  taskUpdeted);
     return taskUpdeted;
 }
+
 
 // update task by filter 
 async function update(filter, data) {
@@ -37,10 +38,11 @@ async function update(filter, data) {
 
 //delete task 
 async function del (id){
-    let task = await taskModel.findByIdAndUpdate({id , isActive: fals})
+    let task = await taskModel.findByIdAndUpdate({id , isActive: false})
     console.log("c", task);
-    return task 
+    return "all good" 
 }
+
 
 
 

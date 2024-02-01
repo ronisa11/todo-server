@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const taskController = require("./task.controller");
 
 
@@ -11,11 +12,15 @@ async function getAllTasks() {
 
 // get one task 
 async function getOneTask(id) {
+    const mongoId = mongoose.Types.ObjectId.isValid(id)
+    if(!mongoId) throw "id not valid"
     let task = await taskController.readOne({ _id: id })
-    console.log("s", task);
+    // console.log("s", task);
     if (!task) throw " there is no task like this"
     return task
 }
+
+
 
 // add task 
 async function createTask(data) {
@@ -26,13 +31,16 @@ async function createTask(data) {
 
 // update task by id
 async function updateTask(id, data) {
+    const mongoId = mongoose.Types.ObjectId.isValid(id)
+    if(!mongoId) throw "id not valid"
     let taskId = await taskController.readOne({ _id: id })
     if (!taskId) throw "there is no task like this"
-    let result = await taskController.updateById(taskId, data)
-    // console.log("s", result);
+    let result = await taskController.updateById(id, data)
+    console.log("s", result);
     if (!result) throw "Edit failed "
     return taskController.readOne({ _id: id })
 }
+
 
 // update task by filter 
 async function updateByFilter(filter , data){
@@ -47,15 +55,15 @@ async function updateByFilter(filter , data){
 
 // delete task
 async function delTask(id){
-    // let taskId = await taskController.readOne({_id:id})
-    // if(!taskId) throw "there is no task like this"
-    let result = await taskController.del(id)
-    console.log("s" , result);
+    const mongoId = mongoose.Types.ObjectId.isValid(id)
+    if(!mongoId) throw "id not valid"
+    let result = await taskController.del(mongoId)
+    // console.log("s" , result);
     if(!result) throw "delete failed "
     return taskController.readAll()
 
 }
 
-delTask("65ba5998e8a7d0b78bf35208")
+
 
 module.exports = { getAllTasks, getOneTask, createTask, updateTask , updateByFilter,delTask}

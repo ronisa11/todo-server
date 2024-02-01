@@ -42,9 +42,9 @@ router.post("/" , async (req, res)=>{
 router.put("/:taskId" , async (req, res)=>{
     try {
         let id = req.params.taskId;
-        let body =  req.body;
-        let task = await taskService.updateTask(id, body);
-        // console.log("r" , task);
+        let data =  req.body;
+        let task = await taskService.updateTask(id, data);
+        console.log("r" , task);
         if (task) res.send({"u just update ur task" : task})
     } catch (err) {
         res.status(455).send("something went wrong :/")
@@ -71,7 +71,7 @@ router.delete("/:taskId" , async (req , res)=> {
     try {
         let id = req.params.taskId;
         let task = await taskService.delTask(id)
-        console.log("r", task);
+        // console.log("r", task);
         if (task) res.send ( "task is deleted");
     } catch (err) {
         res.status(455).send("something went wrong :/")
