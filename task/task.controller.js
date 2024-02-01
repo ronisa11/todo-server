@@ -23,7 +23,7 @@ async function create(data) {
 
 // update task by id
 async function updateById(id, data) {
-    let taskUpdeted = await taskModel.findByIdAndUpdate({_id: id },{ status : "done"}  ,data)
+    let taskUpdeted = await taskModel.updateOne({_id: id , status : "done"}  ,data)
     console.log("c" ,  taskUpdeted);
     return taskUpdeted;
 }

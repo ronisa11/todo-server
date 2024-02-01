@@ -31,8 +31,8 @@ async function createTask(data) {
 
 // update task by id
 async function updateTask(id, data) {
-    const mongoId = mongoose.Types.ObjectId.isValid(id)
-    if(!mongoId) throw "id not valid"
+    // const mongoId = mongoose.Types.ObjectId.isValid(id)
+    // if(!mongoId) throw "id not valid"
     let taskId = await taskController.readOne({ _id: id })
     if (!taskId) throw "there is no task like this"
     let result = await taskController.updateById(id, data)
