@@ -1,7 +1,7 @@
 const taskModel = require("./task.model")
 
 // get all the tasks 
-async function readAll(filter = {}) {
+async function read(filter = {}) {
     let tasks = await taskModel.find({ ...filter })
     // console.log("c", tasks);
     return tasks
@@ -21,13 +21,9 @@ async function create(data) {
     return newTask;
 }
 
-// update task by id
-async function updateById(id, data) {
-    let taskUpdeted = await taskModel.updateOne({_id: id , status : "done"}  ,data)
-    console.log("c" ,  taskUpdeted);
-    return taskUpdeted;
+async function updateById(filter, data){
+    return await taskModel.updateOne(filter, data)
 }
-
 
 // update task by filter 
 async function update(filter, data) {
@@ -37,16 +33,22 @@ async function update(filter, data) {
 }
 
 //delete task 
-async function del (id){
-    let task = await taskModel.findByIdAndUpdate({id , isActive: false})
-    console.log("c", task);
-    return "all good" 
+// async function del (id){
+//     let task = await taskModel.findByIdAndUpdate({id , isActive: false})
+//     console.log("c", task);
+//     return "all good" 
+// }
+
+
+async function del(id) {
+    return await taskModel.updateOne({_id: id}, {$set: {isActive: false}});
 }
 
 
 
 
-module.exports = { readAll, readOne, create, updateById, update, del }
+
+module.exports = { readOne, create, updateById, update, del, read}
 
 
 

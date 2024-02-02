@@ -38,19 +38,17 @@ router.post("/" , async (req, res)=>{
     }
 })
 
-//update task by id 
-router.put("/:taskId" , async (req, res)=>{
-    try {
-        let id = req.params.taskId;
-        let data =  req.body;
-        let task = await taskService.updateTask(id, data);
-        console.log("r" , task);
-        if (task) res.send({"u just update ur task" : task})
-    } catch (err) {
-        res.status(455).send("something went wrong :/")
+//update task
+router.put('/:id', async (req,res)=>{
+    try{
+        const task = await taskService.updateTask(req.params.id, req.body);
+        if (task) {
+            res.send(task); }
+    }catch (error) {
+
+        res.status(404).send(error);
     }
 })
-
 
 //update task by filter 
 router.put("/" , async (req, res)=>{
@@ -67,16 +65,20 @@ router.put("/" , async (req, res)=>{
 
 
 // delete task
-router.delete("/:taskId" , async (req , res)=> {
+
+router.delete('/:id', async (req, res) => {
     try {
-        let id = req.params.taskId;
-        let task = await taskService.delTask(id)
-        // console.log("r", task);
-        if (task) res.send ( "task is deleted");
-    } catch (err) {
-        res.status(455).send("something went wrong :/")
+        let isDeleted = await taskService.delTask(req.params.id);
+        if (isDeleted) {
+            res.send("Task updated as inactive");
+        } else {
+            res.status(404).send("Task not found");
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
     }
-})
+});
+
 
 
 

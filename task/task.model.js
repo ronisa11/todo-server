@@ -15,7 +15,7 @@ const taskSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        default: "activ",
+        default: "active",
         
     },
     isActive: {
